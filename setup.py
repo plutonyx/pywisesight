@@ -8,7 +8,7 @@ CURRENT_DIR = pathlib.Path(__file__).parent
 
 setup(
     name='wisesight',
-    version='0.0.1',
+    version='0.0.2',
     url='https://github.com/plutonyx/wisesight',
     author='Thaweesak Chusri',
     author_email='p4l3k1n6@gmail.com',
