@@ -133,3 +133,21 @@ class Wisesight():
         except Exception as e:
             logger.error(f'[x] campaign_summary {e}')
         return campaigns
+
+    def campaign_influencers(self, campaign_id: str, date_start: int, date_end: int) -> List[Dict[str, str]]:
+        campaigns = []
+        url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/influencers'
+        headers = self._get_headers()
+        try:
+            data = {
+                'date_start': date_start,
+                'date_end': date_end,
+            }
+            response = requests.post(url=url, json=data, headers=headers, timeout=int(self.request_timeout))
+            if response.ok:
+                campaigns = response.json()
+        except requests.exceptions.Timeout:
+            logger.error('[x] campaign_summary timeout ')
+        except Exception as e:
+            logger.error(f'[x] campaign_summary {e}')
+        return campaigns
