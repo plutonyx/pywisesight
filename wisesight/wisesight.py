@@ -73,7 +73,7 @@ class Wisesight():
             logger.error(f'[x] get_campaigns {e}')
         return campaigns
 
-    def get_campaign(self, campaign_id) -> List[Dict[str, str]]:
+    def get_campaign(self, campaign_id: str) -> List[Dict[str, str]]:
         campaigns = []
         url = f'{self.base_url}/api/v1/campaigns/{campaign_id}'
         headers = self._get_headers()
@@ -82,12 +82,12 @@ class Wisesight():
             if response.ok:
                 campaigns = response.json()
         except requests.exceptions.Timeout:
-            logger.error('[x] get_campaigns timeout ')
+            logger.error('[x] get_campaign detail timeout ')
         except Exception as e:
-            logger.error(f'[x] get_campaigns {e}')
+            logger.error(f'[x] get_campaign detail {e}')
         return campaigns
 
-    def get_campaign_categories(self, campaign_id) -> List[Dict[str, str]]:
+    def get_campaign_categories(self, campaign_id: str) -> List[Dict[str, str]]:
         campaigns = []
         url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/categories'
         headers = self._get_headers()
@@ -96,12 +96,12 @@ class Wisesight():
             if response.ok:
                 campaigns = response.json()
         except requests.exceptions.Timeout:
-            logger.error('[x] get_campaigns timeout ')
+            logger.error('[x] get_campaign_categories timeout ')
         except Exception as e:
-            logger.error(f'[x] get_campaigns {e}')
+            logger.error(f'[x] get_campaign_categories {e}')
         return campaigns
-        
-    def get_campaign_keywords(self, campaign_id) -> List[Dict[str, str]]:
+
+    def get_campaign_keywords(self, campaign_id: str) -> List[Dict[str, str]]:
         campaigns = []
         url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/keywords'
         headers = self._get_headers()
@@ -110,8 +110,26 @@ class Wisesight():
             if response.ok:
                 campaigns = response.json()
         except requests.exceptions.Timeout:
-            logger.error('[x] get_campaigns timeout ')
+            logger.error('[x] get_campaign_keywords timeout ')
         except Exception as e:
-            logger.error(f'[x] get_campaigns {e}')
+            logger.error(f'[x] get_campaign_keywords {e}')
         return campaigns
-        
+
+    def campaign_summary(self, campaign_id: str, date_start: int, date_end: int, duration: str = 'day') -> List[Dict[str, str]]:
+        campaigns = []
+        url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/summary'
+        headers = self._get_headers()
+        try:
+            data = {
+                'date_start': date_start,
+                'date_end': date_end,
+                'duration': duration,
+            }
+            response = requests.post(url=url, json=data, headers=headers, timeout=int(self.request_timeout))
+            if response.ok:
+                campaigns = response.json()
+        except requests.exceptions.Timeout:
+            logger.error('[x] campaign_summary timeout ')
+        except Exception as e:
+            logger.error(f'[x] campaign_summary {e}')
+        return campaigns
