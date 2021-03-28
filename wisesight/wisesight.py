@@ -58,3 +58,60 @@ class Wisesight():
 
         else:
             logger.error('[x] use existing token ')
+
+    def get_campaigns(self) -> List[Dict[str, str]]:
+        campaigns = []
+        url = f'{self.base_url}/api/v1/campaigns/list'
+        headers = self._get_headers()
+        try:
+            response = requests.get(url=url, headers=headers, timeout=int(self.request_timeout))
+            if response.ok:
+                campaigns = response.json()
+        except requests.exceptions.Timeout:
+            logger.error('[x] get_campaigns timeout ')
+        except Exception as e:
+            logger.error(f'[x] get_campaigns {e}')
+        return campaigns
+
+    def get_campaign(self, campaign_id) -> List[Dict[str, str]]:
+        campaigns = []
+        url = f'{self.base_url}/api/v1/campaigns/{campaign_id}'
+        headers = self._get_headers()
+        try:
+            response = requests.get(url=url, headers=headers, timeout=int(self.request_timeout))
+            if response.ok:
+                campaigns = response.json()
+        except requests.exceptions.Timeout:
+            logger.error('[x] get_campaigns timeout ')
+        except Exception as e:
+            logger.error(f'[x] get_campaigns {e}')
+        return campaigns
+
+    def get_campaign_categories(self, campaign_id) -> List[Dict[str, str]]:
+        campaigns = []
+        url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/categories'
+        headers = self._get_headers()
+        try:
+            response = requests.get(url=url, headers=headers, timeout=int(self.request_timeout))
+            if response.ok:
+                campaigns = response.json()
+        except requests.exceptions.Timeout:
+            logger.error('[x] get_campaigns timeout ')
+        except Exception as e:
+            logger.error(f'[x] get_campaigns {e}')
+        return campaigns
+        
+    def get_campaign_keywords(self, campaign_id) -> List[Dict[str, str]]:
+        campaigns = []
+        url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/keywords'
+        headers = self._get_headers()
+        try:
+            response = requests.get(url=url, headers=headers, timeout=int(self.request_timeout))
+            if response.ok:
+                campaigns = response.json()
+        except requests.exceptions.Timeout:
+            logger.error('[x] get_campaigns timeout ')
+        except Exception as e:
+            logger.error(f'[x] get_campaigns {e}')
+        return campaigns
+        
