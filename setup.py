@@ -10,7 +10,7 @@ setup(
     name='wisesight',
     version='0.0.3-alpha3',
     url='https://github.com/plutonyx/wisesight',
-    author='Thaweesak Chusri',
+    author='P4L3K1N6',
     author_email='p4l3k1n6@gmail.com',
     description='The wisesight social listening project',
     long_description=open(os.path.join(CURRENT_DIR, "README.md")).read(),
