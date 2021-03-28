@@ -23,7 +23,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=[],    
+    packages=["wisesight"],
     include_package_data=True,
     install_requires=[],
 )

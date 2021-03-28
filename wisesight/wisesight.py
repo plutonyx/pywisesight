@@ -185,8 +185,8 @@ class Wisesight():
             if response.ok:
                 campaigns = response.json()
         except requests.exceptions.Timeout:
-            logger.error('[x] campaign_summary timeout ')
+            logger.error('[x] messages timeout ')
         except Exception as e:
-            logger.error(f'[x] campaign_summary {e}')
+            logger.error(f'[x] messages {e}')
         return campaigns
 
