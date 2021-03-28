@@ -1,0 +1,46 @@
+kind: pipeline
+type: docker
+name: wisesight
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache
+  - name: ssh
+    host:
+      path: /home/ubuntu/Workspaces/logicspark-ci/ssh
+
+steps:
+  - name: bumpversion
+    image: python:3.7
+    pull: if-not-exists
+    commands:
+      - pip install --upgrade bump2version
+      - bump2version build --verbose
+      - git --no-pager log -n1 --oneline --format=%B
+      - git commit --amend -m "`git --no-pager log -n1 --oneline --format=%B HEAD` [CI SKIP]"
+      - git --no-pager log -n1 --oneline --format=%B
+    when:
+      branch: develop
+
+  - name: push commit
+    image: appleboy/drone-git-push
+    settings:
+      remote_name: upstream
+      remote: git@github.com:plutonyx/pywisesight.git
+      branch: develop
+      local_ref: develop
+      ssh_key:
+        from_secret: ssh_key
+
+  - name: pypi-test-publish
+    image: plugins/pypi
+    pull: if-not-exists
+    when:
+      branch: develop
+    settings:
+      username:
+        from_secret: pypi_username
+      password:
+        from_secret: pypi_password
+      repository: https://test.pypi.org/legacy/
