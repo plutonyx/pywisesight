@@ -129,9 +129,7 @@ class Wisesight():
         duration: str = 'day'
     ) -> List[Dict[str, str]]:
         start_date = target_date.replace(hour=0, minute=0, second=0, microsecond= 0)
-        print(start_date)
-        end_date = start_date.add(hours=24).subtract(microseconds=1)
-        print(end_date)
+        end_date = start_date.add(hours=24).subtract(seconds=1)
         return self.campaign_summary(campaign_id, start_date.timestamp(), end_date.timestamp(), duration)
 
     def campaign_summary(self, campaign_id: str, date_start: int, date_end: int, duration: str = 'day') -> List[Dict[str, str]]:
@@ -205,7 +203,7 @@ class Wisesight():
         start: int, 
         limit: int) -> List[Dict[str, str]]:
         start_date = target_date.replace(hour=0, minute=0, second=0, microsecond= 0)
-        end_date = start_date.add(hours=24).subtract(microseconds=1)
+        end_date = start_date.add(hours=24).subtract(seconds=1)
         return self.messages(campaign_id, start_date.timestamp(), end_date.timestamp(), start, limit)
 
     def messages(self, campaign_id: str, date_start: int, date_end: int, start: int, limit: int) -> List[Dict[str, str]]:
