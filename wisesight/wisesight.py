@@ -32,7 +32,6 @@ class Wisesight():
 
     def authenticate(self) -> None:
         if self.expiration_date is None or self.expiration_date <= datetime.datetime.now():
-            logger.error('[x] renew token ')
             url = f'{self.base_url}/generate-token'
             headers_connect = {'Content-type': 'application/json'}
             payload = {
@@ -58,7 +57,7 @@ class Wisesight():
                 self.expiration_date = datetime.datetime.now() + datetime.timedelta(hours=12)
 
         else:
-            logger.error('[x] use existing token ')
+            pass
 
     def get_campaigns(self) -> List[Dict[str, str]]:
         campaigns = []
