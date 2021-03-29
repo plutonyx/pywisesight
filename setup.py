@@ -25,5 +25,8 @@ setup(
     ],
     packages=["wisesight"],
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        "pendulum==2.1.2",
+        "requests==2.25.1"
+    ],
 )

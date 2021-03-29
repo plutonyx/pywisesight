@@ -3,6 +3,7 @@ import logging
 import datetime
 import requests
 import jwt
+from wisesight import date_utils
 
 logger = logging.getLogger(__name__)
 class Wisesight():
@@ -115,6 +116,25 @@ class Wisesight():
             logger.error(f'[x] get_campaign_keywords {e}')
         return campaigns
 
+    def campaign_daily_utc_summary(self, 
+        campaign_id: str, 
+        target_date_utc: datetime, 
+        duration: str = 'day'
+    ) -> List[Dict[str, str]]:
+        target_date = date_utils.to_local_time(target_date_utc)
+        return self.campaign_daily_summary(campaign_id, target_date, duration)
+
+    def campaign_daily_summary(self, 
+        campaign_id: str, 
+        target_date: datetime, 
+        duration: str = 'day'
+    ) -> List[Dict[str, str]]:
+        start_date = target_date.replace(hour=0, minute=0, second=0, microsecond= 0)
+        print(start_date)
+        end_date = start_date.add(hours=24).subtract(microseconds=1)
+        print(end_date)
+        return self.campaign_summary(campaign_id, start_date.timestamp(), end_date.timestamp(), duration)
+
     def campaign_summary(self, campaign_id: str, date_start: int, date_end: int, duration: str = 'day') -> List[Dict[str, str]]:
         campaigns = []
         url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/summary'
@@ -169,6 +189,25 @@ class Wisesight():
         except Exception as e:
             logger.error(f'[x] campaign_summary {e}')
         return campaigns
+    
+    def get_daily_utc_messages_for_campaign(
+        self, 
+        campaign_id: str, 
+        target_date_utc: datetime, 
+        start: int, 
+        limit: int) -> List[Dict[str, str]]:
+        target_date = date_utils.to_local_time(target_date_utc)
+        return self.get_daily_messages_for_campaign(campaign_id, target_date, start, limit)
+
+    def get_daily_messages_for_campaign(
+        self, 
+        campaign_id: str, 
+        target_date: datetime, 
+        start: int, 
+        limit: int) -> List[Dict[str, str]]:
+        start_date = target_date.replace(hour=0, minute=0, second=0, microsecond= 0)
+        end_date = start_date.add(hours=24).subtract(microseconds=1)
+        return self.messages(campaign_id, start_date.timestamp(), end_date.timestamp(), start, limit)
 
     def messages(self, campaign_id: str, date_start: int, date_end: int, start: int, limit: int) -> List[Dict[str, str]]:
         campaigns = []
