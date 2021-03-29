@@ -44,3 +44,36 @@ steps:
       local_ref: develop
       ssh_key:
         from_secret: ssh_key
+
+  - name: bumpversion-release
+    image: python:3.7
+    pull: if-not-exists
+    when:
+      branch: master
+    commands:
+      - pip install --upgrade bump2version
+      - bump2version release --verbose
+      - git --no-pager log -n1 --oneline --format=%B
+
+  - name: pypi-publish-release
+    image: plugins/pypi
+    pull: if-not-exists
+    when:
+      branch: master
+    settings:
+      username:
+        from_secret: pypi_username
+      password:
+        from_secret: pypi_password
+
+  - name: push commit release
+    image: appleboy/drone-git-push
+    when:
+      branch: master
+    settings:
+      remote_name: upstream
+      remote: git@github.com:plutonyx/pywisesight.git
+      branch: master
+      local_ref: master
+      ssh_key:
+        from_secret: ssh_key
