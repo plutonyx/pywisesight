@@ -49,7 +49,7 @@ class Wisesight():
                 data = response.json()
                 token = data.get('token', {})
                 # Actually token contain a expiration but I lazy to manage the expiration i will assume expiration will have 12hrs life-time.
-                token_data = jwt.decode(token, options={"verify_signature": False})
+                # token_data = jwt.decode(token, options={"verify_signature": False})
                 self.headers = {
                     "content-type": "application/json",
                     "Authorization": f"Bearer {token}",
