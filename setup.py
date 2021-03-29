@@ -27,6 +27,7 @@ setup(
     include_package_data=True,
     install_requires=[
         "pendulum==2.1.2",
-        "requests==2.25.1"
+        "requests==2.25.1",
+        "PyJWT==2.0.1",
     ],
 )
