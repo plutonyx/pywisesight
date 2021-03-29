@@ -20,8 +20,6 @@ steps:
       - pip install --upgrade bump2version
       - bump2version build --verbose
       - git --no-pager log -n1 --oneline --format=%B
-      - git commit --amend -m "`git --no-pager log -n1 --oneline --format=%B HEAD` [CI SKIP]"
-      - git --no-pager log -n1 --oneline --format=%B
 
   - name: pypi-test-publish
     image: plugins/pypi
