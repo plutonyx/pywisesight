@@ -45,15 +45,15 @@ steps:
       ssh_key:
         from_secret: ssh_key
 
-  - name: bumpversion-release
-    image: python:3.7
-    pull: if-not-exists
-    when:
-      branch: main
-    commands:
-      - pip install --upgrade bump2version
-      - bump2version release --verbose
-      - git --no-pager log -n1 --oneline --format=%B
+  # - name: bumpversion-release
+  #   image: python:3.7
+  #   pull: if-not-exists
+  #   when:
+  #     branch: main
+  #   commands:
+  #     - pip install --upgrade bump2version
+  #     - bump2version release --verbose
+  #     - git --no-pager log -n1 --oneline --format=%B
 
   - name: pypi-publish-release
     image: plugins/pypi
