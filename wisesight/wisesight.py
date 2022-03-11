@@ -170,6 +170,9 @@ class Wisesight():
         return campaigns
 
     def campaign_wordcloud(self, campaign_id: str, date_start: int, date_end: int) -> List[Dict[str, str]]:
+        return self.campaign_wordcloud_with_filters(campaign_id, date_start, date_end, None)
+
+    def campaign_wordcloud_with_filters(self, campaign_id: str, date_start: int, date_end: int, filter: Dict[str, str]) -> List[Dict[str, str]]:
         campaigns = []
         url = f'{self.base_url}/api/v1/campaigns/{campaign_id}/wordcloud'
         headers = self._get_headers()
@@ -178,6 +181,8 @@ class Wisesight():
                 'date_start': date_start,
                 'date_end': date_end,
             }
+            if (filter is not None):
+                data['filter'] = filter
             response = requests.post(url=url, json=data, headers=headers, timeout=int(self.request_timeout))
             if response.ok:
                 campaigns = response.json()
