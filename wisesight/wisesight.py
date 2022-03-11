@@ -170,7 +170,8 @@ class Wisesight():
         return campaigns
 
     def campaign_wordcloud(self, campaign_id: str, date_start: int, date_end: int) -> List[Dict[str, str]]:
-        return self.campaign_wordcloud_with_filters(campaign_id, date_start, date_end, None)
+        filter = None
+        return self.campaign_wordcloud_with_filters(campaign_id, date_start, date_end, filter)
 
     def campaign_wordcloud_with_filters(self, campaign_id: str, date_start: int, date_end: int, filter: Dict[str, str]) -> List[Dict[str, str]]:
         campaigns = []
